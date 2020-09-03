@@ -1,0 +1,23 @@
+enum Mode
+  Implied
+  Immediate
+  ImmediateLong
+  Zero_Page
+  Zero_Page_X
+  Zero_Page_Y
+  Absolute
+  Absolute_X
+  Absolute_Y
+  Absolute_
+  Absolute_X_
+  Absolute__Y
+  Absolute__Z
+  Zero_Page_
+  Zero_Page_X_
+  Zero_Page__Y
+  Zero_Page_SP__Y
+  Zero_Page__Z
+  Relative
+  RelativeLong
+  Zero_Page_Relative
+end

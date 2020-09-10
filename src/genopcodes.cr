@@ -26,6 +26,39 @@ modemap = {
 }
 
 INFILE="op6502.txt"
-OUTFILE="opcodes.cr"
 
-File.open(INFILE)
+header = <<-EOF
+module Opcodes6502
+EOF
+footer = <<-EOF
+end
+EOF
+
+opcodes = Hash(String, Array(Int32)).new { |h, k| h[k] = Array(Int32).new(modemap.size,-1) }
+
+puts header
+File.open(INFILE) do |infile|
+  infile.each_line do |line|
+    data = line.match(/^(?<code>..):\s*(?<desc>.*)$/).not_nil!
+    code = data["code"]
+    desc = data["desc"]
+    oplist = desc.split(/;/)
+    oplist.each do |opitem|
+      unless opitem.match(/^$/)
+        opinfo = opitem.match(/\s*(?<op1>[\w\.]+)\s+-\s+(?<mode1>.+)/).not_nil!
+        op1 = opinfo["op1"]
+        mode1 = opinfo["mode1"]
+        opcodes[op1.downcase][modemap[mode1].to_i] = code.to_i(16)
+      end
+    end
+  end
+  puts "  Opcodes6502 = {"
+  str = opcodes.keys.sort.join(",\n") do |opcode|
+    "      \"" + opcode + "\" => [" + opcodes[opcode].join(", ") do |val|
+      val < 0 ? val : "0x" + val.to_s(16)
+    end + "]"
+  end
+  puts str
+  puts "  }"
+end
+puts footer

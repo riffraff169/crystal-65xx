@@ -1,12 +1,12 @@
-name: compiler
+name: compiler65
 version: 0.1.0
 
 authors:
-  - your-name-here <your-email-here>
+  - Lance Dillon <riffraff169@yahoo.com>
 
 targets:
-  compiler:
-    main: src/compiler.cr
+  compiler65:
+    main: src/main.cr
 
 crystal: 0.35.1
 

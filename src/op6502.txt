@@ -1,6 +1,6 @@
 00: BRK - Implied
 01: ORA - (Zero Page, X)
-02:
+02:  
 03:
 04:
 05: ORA - Zero Page
@@ -87,7 +87,7 @@
 56: LSR - Zero Page, X
 57:
 58: CLI - Implied
-59: EOR - Absolute, Y: EOR.W - Absolute, Y
+59: EOR - Absolute, Y; EOR.W - Absolute, Y
 5A:
 5B:
 5C:
@@ -142,7 +142,7 @@
 8D: STA - Absolute; STA.W - Absolute
 8E: STX - Absolute; STX.W - Absolute
 8F:
-90: BCC - Rlative
+90: BCC - Relative
 91: STA - (Zero Page), Y
 92:
 93:

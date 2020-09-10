@@ -7,7 +7,7 @@ class Lexer
     @lineno = 0
   end
   def parse(text : String)
-    tokens = [] of Token
+    lexemes = [] of Lexeme
     text.split(/\n/) do |line|
       @lineno+=1
       s = StringScanner.new(line)
@@ -15,16 +15,15 @@ class Lexer
       skip_comment(s)
       skip_spaces(s)
       until s.eos?
-        token = check_token(s)
-        #puts "TOK: #{token}"
-        # comments aren't tokens
-        unless token[:type] == :comment
-          tokens << token
+        lexeme = check_lexeme(s)
+        # comments aren't lexems
+        unless lexeme[:type] == :comment
+         lexemes << lexeme
         end
       end
-      #puts "TOKENS: #{tokens}"
+      #puts "LEXEME: #{lexemes}"
     end
-    tokens
+    lexemes
   end
   def skip_comment(s)
     s.scan(/;.*/)
@@ -32,63 +31,63 @@ class Lexer
   def skip_spaces(s)
     s.scan(/\s*/)
   end
-  def check_token(s)
+  def check_lexeme(s)
     skip_spaces(s)
     #if s.scan(/^$/)
     nextchar = s.peek(1)
-    #token = [] of Token
+    #lexeme = [] of Lexeme
     if nextchar == "."
       s.scan(/\.(\w+)/)
-      token = {:type => :pragma, :value => s[1], :line => @lineno}
+      lexeme = {:type => :pragma, :value => s[1], :line => @lineno}
     elsif nextchar == ","
       s.scan(/,/)
-      token = {:type => :comma, :value => ",", :line => @lineno}
+      lexeme = {:type => :comma, :value => ",", :line => @lineno}
     elsif nextchar == "<"
       s.scan(/</)
-      token = {:type => :lessthan, :value => "<", :line => @lineno}
+      lexeme = {:type => :lessthan, :value => "<", :line => @lineno}
     elsif nextchar == ">"
       s.scan(/>/)
-      token = {:type => :greaterthan, :value => ">", :line => @lineno}
+      lexeme = {:type => :greaterthan, :value => ">", :line => @lineno}
     elsif nextchar == "#"
       s.scan(/#/)
-      token = {:type => :crosshatch, :value => "#", :line => @lineno}
+      lexeme = {:type => :crosshatch, :value => "#", :line => @lineno}
     elsif nextchar == ":"
       s.scan(/:/)
-      token = {:type => :colon, :value => ":", :line => @lineno}
+      lexeme = {:type => :colon, :value => ":", :line => @lineno}
     elsif nextchar == "0"
       # octal
       #puts "Scanning octal"
       s.scan(/\d+/)
-      token = {:type => :number, :value => s[0].to_i(8), :line => @lineno}
+      lexeme = {:type => :number, :value => s[0].to_i(8), :line => @lineno}
     elsif s.check(/\w|_/)
       #puts "WORD"
       s.scan(/([\w_][\w\d_]*)/)
-      token = {:type => :word, :value => s[1], :line => @lineno}
+      lexeme = {:type => :word, :value => s[1], :line => @lineno}
     elsif s.check(/;/)
       # skip comment to end of line
       s.scan(/;.*/)
-      token = {:type => :comment, :value => ";", :line => @lineno}
+      lexeme = {:type => :comment, :value => ";", :line => @lineno}
     elsif s.check(/\$/)
       # hex
       s.scan(/\$([\dabcdefABCDEF]+)/)
-      token = {:type => :number, :value => s[1].to_i(16), :line => @lineno}
+      lexeme = {:type => :number, :value => s[1].to_i(16), :line => @lineno}
     elsif s.check(/%/)
       # binary
       s.scan(/%(\d+)/)
-      token = {:type => :number, :value => s[1].to_i(2), :line => @lineno}
+      lexeme = {:type => :number, :value => s[1].to_i(2), :line => @lineno}
     elsif s.check(/\d/)
       # decimal
       s.scan(/(\d+)/)
-      token = {:type => :number, :value => s[1].to_i, :line => @lineno}
+      lexeme = {:type => :number, :value => s[1].to_i, :line => @lineno}
     elsif nextchar == "\""
       #puts "Scanning string"
       s.scan(/"([^"]+)"/)
-      token = {:type => :string, :value => s[1], :line => @lineno}
+      lexeme = {:type => :string, :value => s[1], :line => @lineno}
     else
-      #puts "TOKEN: #{nextchar}"
+      #puts "LEXEME: #{nextchar}"
       s.scan(/./)
-      token = {:type => :char, :value => s[0], :line => @lineno}
+      lexeme = {:type => :char, :value => s[0], :line => @lineno}
     end
-    token
+    lexeme
   end
 end

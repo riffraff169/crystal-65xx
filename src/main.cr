@@ -22,17 +22,17 @@ OptionParser.parse do |parser|
 end
 
 lexer = Lexer.new
-tokens = [] of Token
+lexemes = [] of Lexeme
 File.open(filename) do |file|
-  tokens = lexer.parse(file.gets_to_end)
+  lexemes = lexer.parse(file.gets_to_end)
 end
-#puts tokens.class
-tokens.each do |tok|
-  #puts tok.class
-  #puts tok.keys
-  puts "TOKEN: #{tok[:type]}"
+#puts lexemes.class
+lexemes.each do |lex|
+  #puts lex.class
+  #puts lex.keys
+  puts "LEXEME: #{lex[:type]}"
 end
-#puts tokens
+#puts lexemes
 
-parser = Parser.new(tokens)
+parser = Parser.new(lexemes)
 parser.parse

@@ -1,15 +1,16 @@
 require "./aliases.cr"
+require "./opcodes6502.cr"
+
 class Parser
-  #@tokens = Array(String,String).new
-  def initialize(@tokens : Array(Token))
-    #@tokens = tokens
-    @tp = 0
+  include Opcodes6502
+  def initialize(@lexemes : Array(Lexeme))
+    @lp = 0
   end
 
   def parse
-    @tokens.each do |tok|
-      puts "TOKEN: #{tok}"
-      @tp+=1
+    @lexemes.each do |lex|
+      puts "LEXEME: #{lex}"
+      @lp+=1
     end
 
     #while @tp < @tokens.size

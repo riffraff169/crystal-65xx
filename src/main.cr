@@ -27,11 +27,11 @@ File.open(filename) do |file|
   lexemes = lexer.parse(file.gets_to_end)
 end
 #puts lexemes.class
-lexemes.each do |lex|
+#lexemes.each do |lex|
   #puts lex.class
   #puts lex.keys
-  puts "LEXEME: #{lex[:type]}"
-end
+  #puts "LEXEME: #{lex[:type]}"
+#end
 #puts lexemes
 
 parser = Parser.new(lexemes)

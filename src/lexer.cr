@@ -43,17 +43,61 @@ class Lexer
       s.scan(/,/)
       lexeme = {:type => :comma, :value => ",", :line => @lineno}
     elsif nextchar == "<"
-      s.scan(/</)
-      lexeme = {:type => :lessthan, :value => "<", :line => @lineno}
+      if s.scan(/<</)
+        lexeme = {:type => :shiftleft, :value => "<<", :line => @lineno}
+      else
+        s.scan(/</)
+        lexeme = {:type => :lessthan, :value => "<", :line => @lineno}
+      end
     elsif nextchar == ">"
-      s.scan(/>/)
-      lexeme = {:type => :greaterthan, :value => ">", :line => @lineno}
+      if s.scan(/>>/)
+        lexeme = {:type => :shiftright, :value => ">>", :line => @lineno}
+      else
+        s.scan(/>/)
+        lexeme = {:type => :greaterthan, :value => ">", :line => @lineno}
+      end
     elsif nextchar == "#"
       s.scan(/#/)
       lexeme = {:type => :crosshatch, :value => "#", :line => @lineno}
     elsif nextchar == ":"
       s.scan(/:/)
       lexeme = {:type => :colon, :value => ":", :line => @lineno}
+    elsif nextchar == "&"
+      s.scan(/&/)
+      lexeme = {:type => :bitand, :value => "&", :line => @lineno}
+    elsif nextchar == "|"
+      s.scan(/|/)
+      lexeme = {:type => :bitor, :value => "|", :line => @lineno}
+    elsif nextchar == "["
+      s.scan(/\[/)
+      lexeme = {:type => :leftbracket, :value => "[", :line => @lineno}
+    elsif nextchar == "]"
+      s.scan(/\]/)
+      lexeme = {:type => :rightbracket, :value => "]", :line => @lineno }
+    elsif nextchar == "("
+      s.scan(/\(/)
+      lexeme = {:type => :leftparen, :value => "(", :line => @lineno}
+    elsif nextchar == ")"
+      s.scan(/\)/)
+      lexeme = {:type => :rightparen, :value => ")", :line => @lineno }
+    elsif nextchar == "*"
+      s.scan(/\*/)
+      lexeme = {:type => :mult, :value => "*", :line => @lineno }
+    elsif nextchar == "+"
+      s.scan(/\+/)
+      lexeme = {:type => :plus, :value => "+", :line => @lineno }
+    elsif nextchar == "/"
+      s.scan(/\//)
+      lexeme = {:type => :div, :value => "/", :line => @lineno }
+    elsif nextchar == "-"
+      s.scan(/-/)
+      lexeme = {:type => :minus, :value => "-", :line => @lineno }
+    elsif nextchar == "^"
+      s.scan(/^/)
+      lexeme = {:type => :xor, :value => "^", :line => @lineno }
+    elsif nextchar == "'"
+      s.scan(/'/)
+      lexeme = {:type => :quote, :value => "'", :line => @lineno }
     elsif nextchar == "0"
       # octal
       #puts "Scanning octal"

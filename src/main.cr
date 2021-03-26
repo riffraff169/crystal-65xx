@@ -22,7 +22,7 @@ OptionParser.parse do |parser|
 end
 
 lexer = Lexer.new
-lexemes = [] of Lexeme
+lexemes = [] of Token
 File.open(filename) do |file|
   lexemes = lexer.parse(file.gets_to_end)
 end

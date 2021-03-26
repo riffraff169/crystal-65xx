@@ -3,7 +3,7 @@ require "./opcodes6502.cr"
 
 class Parser
   include Opcodes6502
-  def initialize(@lexemes : Array(Lexeme))
+  def initialize(@lexemes : Array(Token))
     @lp = 0
   end
 
